@@ -1,4 +1,4 @@
-from utils.audio import data
+from utils.audio import file
 
 import librosa
 import numpy as np
@@ -24,7 +24,7 @@ class PitchPerturb():
 		"""
 		Shift audio.
 		"""
-		y, sr = data.read(self.audio)
+		y, sr = file.read(self.audio)
 		return librosa.effects.pitch_shift(y=y, sr=sr, n_steps=self.n_steps), sr
 
 
@@ -45,7 +45,7 @@ class TimePerturb():
 		self.rate = rate
 
 	def transformAudio(self):
-		y, sr = data.read(self.audio)
+		y, sr = file.read(self.audio)
 		return librosa.effects.time_stretch(y=y, rate=self.rate), sr
 
 
@@ -88,8 +88,8 @@ class NoisePerturb():
 		self.noise = noise
 
 	def transformAudio(self):
-		audio_y, audio_sr = data.read(self.audio)
-		noise_y, noise_sr = data.read(self.noise)
+		audio_y, audio_sr = file.read(self.audio)
+		noise_y, noise_sr = file.read(self.noise)
 		
 		assert len(noise_y) > len(audio_y), 'Noise audio length is smaller than audio length.'
 		assert audio_sr == noise_sr, 'Audio and Noise sampling rate is not equal.'
